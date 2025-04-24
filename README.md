@@ -34,3 +34,28 @@ The result, labeled BranchGEZ, is routed out of the ID stage for use in later pi
 
 **NEXT STEPS**
 Use the modified components, modified_ID.bdf to finish the necessary part.
+
+**Part 2: Datapath Logic - BranchGEZTaken Signal**
+
+**Objective:**
+To complete the BGEZ instruction logic by checking if the rs register value is greater than or equal to 0, and output a new control signal BranchGEZTaken that is asserted only when the branch should actually be taken.
+
+**Implementation Overview:**
+The datapath was extended in the id.bdf schematic to include logic for detecting whether the sign bit of the rs register is 0 (i.e., rs >= 0). This signal is then combined with the BranchGEZ signal (generated in Part 1) to determine the final branch decision: BranchGEZTaken.
+
+**Signal Logic:**
+The output of the register file corresponding to rs (r1d[31:0]) is tapped at bit 31, representing the sign bit.
+
+A NOT gate inverts this sign bit to create the signal isRsPositive, which is 1 when rs >= 0.
+
+An AND2 gate combines isRsPositive and BranchGEZ to form the final signal:
+
+
+*BranchGEZTaken = BranchGEZ AND (r1d[31] == 0)*
+
+
+## To see the changes, go to the screenshots folder
+
+**Next Steps:**
+In the next stage, BranchGEZTaken will be routed into the PC logic to influence whether the PC is updated to the branch target address or not.
+
