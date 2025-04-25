@@ -59,3 +59,12 @@ An AND2 gate combines isRsPositive and BranchGEZ to form the final signal:
 **Next Steps:**
 In the next stage, BranchGEZTaken will be routed into the PC logic to influence whether the PC is updated to the branch target address or not.
 
+**Huong test for Part 1 and 2**
+
+We modified the testbench.v file so that it can test for compomnent 1 and 2 where both cases - positive and negative, passed. The **BGEZ** and **BranchGEZTaken signal** are working.
+
+*The results can be viewed via the Screenshots folder.*
+
+**Next Steps:**
+We are waiting for the PC to be done to proceed a full testing of the entire BGEZ implementation.
+
