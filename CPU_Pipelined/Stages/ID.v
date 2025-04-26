@@ -15,7 +15,7 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition"
-// CREATED		"Tue Jan 21 10:57:24 2025"
+// CREATED		"Fri Apr 25 19:50:01 2025"
 
 module ID(
 	IDStall,
@@ -29,6 +29,8 @@ module ID(
 	Instruction,
 	WBreg,
 	WBvalue,
+	BranchGEZ,
+	BranchGEZTaken,
 	IDA,
 	IDB,
 	IDIR,
@@ -50,6 +52,8 @@ input wire	[1:0] ForwardB_ID;
 input wire	[31:0] Instruction;
 input wire	[4:0] WBreg;
 input wire	[31:0] WBvalue;
+output wire	BranchGEZ;
+output wire	BranchGEZTaken;
 output wire	[31:0] IDA;
 output wire	[31:0] IDB;
 output wire	[31:0] IDIR;
@@ -58,12 +62,16 @@ output wire	[31:26] IDop;
 output wire	[25:21] IDrm;
 output wire	[20:16] IDrn;
 
+wire	BranchGT;
 wire	[31:0] IDIRWire;
+wire	isRsPositive;
+wire	opcodeIsBGEZ;
+wire	[31:31] r1d;
 wire	[31:0] ReadData1;
 wire	[31:0] ReadData2;
+wire	rtIsBGEZ;
 wire	[31:0] TheConstant0;
 
-assign	IDop = Instruction[31:26];
 
 
 
@@ -91,6 +99,26 @@ MUX2_32	b2v_IDIRMUX(
 	.Y(IDIRWire));
 
 
+new_cmp_opcode	b2v_inst(
+	.dataa(Instruction[31:26]),
+	.aeb(opcodeIsBGEZ));
+
+
+new_cmp_rt_eq	b2v_inst1(
+	.dataa(Instruction[20:16]),
+	.aeb(rtIsBGEZ));
+
+assign	BranchGEZ = rtIsBGEZ & opcodeIsBGEZ;
+
+assign BranchGT = BranchGEZ;
+
+assign r1d = ReadData1[31];
+
+assign	isRsPositive =  ~r1d;
+
+assign	BranchGEZTaken = BranchGT & isRsPositive;
+
+
 RF	b2v_MYRF(
 	.reset(reset),
 	.clk(clk),
@@ -108,6 +136,7 @@ Zero	b2v_Value0(
 
 assign	IDIR = IDIRWire;
 assign	IDof[15:0] = IDIRWire[15:0];
+assign	IDop[31:26] = Instruction[31:26];
 assign	IDrm[25:21] = Instruction[25:21];
 assign	IDrn[20:16] = Instruction[20:16];
 

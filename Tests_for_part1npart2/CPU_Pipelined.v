@@ -15,7 +15,7 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition"
-// CREATED		"Fri Apr 25 19:54:54 2025"
+// CREATED		"Tue Jan 21 11:51:34 2025"
 
 module CPU_Pipelined(
 	reset,
@@ -29,7 +29,6 @@ module CPU_Pipelined(
 	WBIR
 );
 
-
 input wire	reset;
 input wire	clk;
 input wire	[1:0] Strategy;
@@ -40,9 +39,6 @@ output wire	[31:0] MEMIR;
 output wire	[31:0] PC;
 output wire	[31:0] WBIR;
 
-
-wire BranchGEZ;
-wire BranchGEZTaken;
 wire	[31:0] EXALUOut;
 wire	[31:0] EXB;
 wire	[31:0] EXIR_ALTERA_SYNTHESIZED;
@@ -93,9 +89,10 @@ wire	[20:16] SYNTHESIZED_WIRE_8;
 wire	[31:26] SYNTHESIZED_WIRE_3;
 wire	[15:11] SYNTHESIZED_WIRE_6;
 
-
-
-
+// NEW SIGNALS FOR BGEZ TESTING
+wire BranchGEZ;
+wire BranchGEZTaken;
+wire [31:0] r1d;
 
 Branch_Prediction	b2v_BranchPredictionUnit(
 	.Taken(Strategy[0]),
@@ -107,7 +104,6 @@ Branch_Prediction	b2v_BranchPredictionUnit(
 	.Fix(Fix),
 	.Pick(Pick));
 
-
 EXMEMTower	b2v_EX_MEM_Tower(
 	.reset(reset),
 	.clk(clk),
@@ -117,7 +113,6 @@ EXMEMTower	b2v_EX_MEM_Tower(
 	.MEMALUOut(EXMEMTower_ALUOut),
 	.MEMB(EXMEMTower_B),
 	.MEMIR(EXMEMTower_IR));
-
 
 EX	b2v_EXStage(
 	.EXStall(EXstall),
@@ -138,7 +133,6 @@ EX	b2v_EXStage(
 	.OLDA(OLDA),
 	.OLDB(OLDB));
 
-
 ForwardDetection	b2v_ForwardDetectionUnit(
 	.EXrm(SYNTHESIZED_WIRE_7),
 	.EXrn(SYNTHESIZED_WIRE_8),
@@ -155,7 +149,6 @@ ForwardDetection	b2v_ForwardDetectionUnit(
 	.ForwardB_EX(ForwardB_EX),
 	.ForwardB_ID(ForwardB_ID));
 
-
 IDEXTower	b2v_ID_EX_Tower(
 	.EXstall(EXstall),
 	.reset(reset),
@@ -169,7 +162,6 @@ IDEXTower	b2v_ID_EX_Tower(
 	.EXB(SYNTHESIZED_WIRE_0),
 	.EXIR(IDEXTower_IR));
 
-
 ID	b2v_IDStage(
 	.IDStall(IDstall),
 	.reset(reset),
@@ -182,16 +174,16 @@ ID	b2v_IDStage(
 	.Instruction(IFIDTower_IR),
 	.WBreg(REGtoWrite),
 	.WBvalue(ValuetoWriteREG),
-	.BranchGEZ(BranchGEZ),
-    .BranchGEZTaken(BranchGEZTaken),
 	.IDA(IDA),
 	.IDB(IDB),
 	.IDIR(IDIRwire),
 	.IDof(ID_beq_offset),
 	.IDop(IDop),
 	.IDrm(IDrm),
-	.IDrn(IDrn));
-
+	.IDrn(IDrn),
+	.BranchGEZ(BranchGEZ),
+	.BranchGEZTaken(BranchGEZTaken),
+	.r1d(r1d));
 
 IFIDTower	b2v_IF_ID_Tower(
 	.reset(reset),
@@ -199,7 +191,6 @@ IFIDTower	b2v_IF_ID_Tower(
 	.stall(EXstall_or_IDstall),
 	.IFIR(IFIRwire),
 	.IDIR(IFIDTower_IR));
-
 
 IFF	b2v_IFStage(
 	.stall(EXstall_or_IDstall),
@@ -215,7 +206,6 @@ IFF	b2v_IFStage(
 
 assign	EXstall_or_IDstall = EXstall | IDstall;
 
-
 MEMWBTower	b2v_MEM_WB_Tower(
 	.reset(reset),
 	.clk(clk),
@@ -223,7 +213,6 @@ MEMWBTower	b2v_MEM_WB_Tower(
 	.MEMValue(MEMValue),
 	.WBIR(MEMWBTower_IR),
 	.WBValue(MEMWBTower_Value));
-
 
 MEMM	b2v_MEMStage(
 	.clk(clk),
@@ -237,7 +226,6 @@ MEMM	b2v_MEMStage(
 	.MEMrp(MEMrp),
 	.MEMValue(MEMValue));
 
-
 StallDetection	b2v_StallDetectionUnit(
 	.EXop(SYNTHESIZED_WIRE_3),
 	.EXrm(SYNTHESIZED_WIRE_7),
@@ -250,7 +238,6 @@ StallDetection	b2v_StallDetectionUnit(
 	.MEMrn(MEMrn),
 	.IDStall(IDstall),
 	.EXStall(EXstall));
-
 
 WB	b2v_WBStage(
 	.Instruction(MEMWBTower_IR),
