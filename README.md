@@ -1,5 +1,9 @@
 **IP5 BGEZ**
 
+**WhO Participated**
+
+**Megane Alexis, Huong Huynh, Volreka Senatus, Nicholas Ulloa, Santiago Defelice**
+
 **PART 1: CONTROL LOGIC - BGEZ Instruction Detecion**
 
 **Objective**:
@@ -67,4 +71,8 @@ We modified the testbench.v file so that it can test for compomnent 1 and 2 wher
 
 **Next Steps:**
 We are waiting for the PC to be done to proceed a full testing of the entire BGEZ implementation.
+
+
+**We were able ale to complete part 1 and part 2 which is to be able to detect BGEZ signal and know when it is taken**
+**We took inspiration from the professor's testbench to create our own testbench that will test part 1 and part 2 and these can be verified under the CPU_Pipelined, Screenshots and Tests_for_part1npart2 folders**
 
