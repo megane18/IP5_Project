@@ -1,6 +1,6 @@
 **IP5 BGEZ**
 
-**WhO Participated**
+**Who Participated**
 
 **Megane Alexis, Huong Huynh, Volreka Senatus, Nicholas Ulloa, Santiago Defelice**
 
