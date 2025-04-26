@@ -82,4 +82,5 @@ We are waiting for the PC to be done to proceed a full testing of the entire BGE
 
 **We were able ale to complete part 1 and part 2 which is to be able to detect BGEZ signal and know when it is taken**
 **We took inspiration from the professor's testbench to create our own testbench that will test part 1 and part 2 and these can be verified under the CPU_Pipelined, Screenshots and Tests_for_part1npart2 folders**
+**We stopped at part 3 like wiring the new ID in the CPU_Pipelined, we were unable to do so, as it would leave some input with no wire and cause errors when we compile**
 
