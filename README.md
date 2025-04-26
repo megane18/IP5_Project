@@ -4,6 +4,12 @@
 
 **Megane Alexis, Huong Huynh, Volreka Senatus, Nicholas Ulloa, Santiago Defelice**
 
+
+*Volreka, Nicholas and Santiago's changes can be found on the PC-Logic branch*
+
+*Megane and Huong's changes are on the main branch*
+
+
 **PART 1: CONTROL LOGIC - BGEZ Instruction Detecion**
 
 **Objective**:
